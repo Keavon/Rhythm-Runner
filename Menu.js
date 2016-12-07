@@ -19,6 +19,11 @@ Menu.load = function() {
 };
 
 Menu.render = function() {
-	Main.context.fillStyle = "#060";
+	Main.context.fillStyle = "#000";
 	Main.context.fillRect(0, 0, Main.context.canvas.width, Main.context.canvas.height);
+	Main.context.fillStyle = "#fff";
+	Main.context.font = "48px sans-serif";
+	Main.context.textAlign = "center";
+	Main.context.textBaseline = "middle";
+	Main.context.fillText("Rhythm Runner", Main.context.canvas.width / 2, Main.context.canvas.height / 2);
 };
