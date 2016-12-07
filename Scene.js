@@ -2,9 +2,9 @@ var Scene = {};
 
 Scene.load = function(audio, bpm) {
 	Scene.audio = audio;
-	Scene.bpm = bpm;
-	Scene.components = LevelGenerator.generate(bpm);
-	Scene.players = [new Player(0)];
+	Scene.bpm = bpm * 2;
+	Scene.components = LevelGenerator.generate(Scene.bpm);
+	Scene.players = [new Player("yellow", "arrows")];
 	audio.play();
 	//audio.muted = true;
 };

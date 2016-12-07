@@ -1,9 +1,7 @@
 var Menu = {};
 
 Menu.load = function() {
-	//var musicUrl = prompt("Enter music URL");
 	var musicUrl = "song.wav";
-	
 	var audio = new Audio(musicUrl);
 	
 	var request = new XMLHttpRequest();
