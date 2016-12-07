@@ -10,12 +10,12 @@ function Player(color, input) {
 	
 	var self = this;
 	
-	var animations = {
+	this.animations = {
 		"run": function(t) {
 			return {
 				body: {
-					x: Math.sin(t) * 10,
-					y: Math.cos(t) * 10,
+					x: Math.sin(t * 10),
+					y: 0,
 					r: Math.tan(t)
 				},
 				legRear: {
@@ -124,8 +124,15 @@ function Player(color, input) {
 Player.prototype = Object.create(Component.prototype);
 Player.prototype.constructor = Player;
 
-Player.prototype.draw = function() {
+Player.prototype.draw = function(playerOffsetX, yOffset, scale) {
+	var x = this.x;
+	var y = this.y;
+	var w = this.width;
+	var h = this.height;
+	
 	var time = (new Date().getTime() - this.epoch) / 1000;
 	var appendages = this.animations[this.animation](time);
-	console.log(appendages);
+	
+	Main.context.fillStyle = "#fff";
+	Main.context.fillRect((x + appendages.body.x) * scale + playerOffsetX, (y + appendages.body.y - h) * scale + yOffset, w * scale, h * scale);
 };

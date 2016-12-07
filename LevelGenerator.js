@@ -3,7 +3,7 @@ var LevelGenerator = {};
 LevelGenerator.generate = function(bpm) {
 	var components = [];
 	
-	// Push generated components to array
+	components.push(new Platform(0, 0, 100));
 	
 	return components;
 };
