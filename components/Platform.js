@@ -6,11 +6,11 @@ function Platform(x, y, width) {
 Platform.prototype = Object.create(Component.prototype);
 Platform.prototype.constructor = Platform;
 
-Platform.prototype.draw = function(draw) {
-	draw.fill("#222");
-	draw.rect(0, 0, this.width, this.height);
-	draw.fill("#f00");
+Platform.prototype.draw = function() {
+	Draw.fill("#222");
+	Draw.rect(0, 0, this.width, this.height);
+	Draw.fill("#f00");
 	if (this.width > 0.5) {
-		draw.rect(0.25, this.height * 9 / 20, this.width - 0.5, this.height / 10);
+		Draw.rect(0.25, this.height * 9 / 20, this.width - 0.5, this.height / 10);
 	}
 };
