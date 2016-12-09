@@ -1,5 +1,5 @@
 function Barrier(x, y) {
-	Component.call(this, x, y - 1, 0.5, 1);
+	Component.call(this, x, y, 1, 2);
 }
 
 // Extend Component
@@ -7,131 +7,141 @@ Barrier.prototype = Object.create(Component.prototype);
 Barrier.prototype.constructor = Barrier;
 
 Barrier.prototype.draw = function(draw) {
-	draw.offset(this.x, this.y);
 	Right();
 	Left();
-	draw.offset(0, 0);
-	
-	function Right() {
-		draw.fill("#222222");
-		draw.beginShape();
-		draw.vertex(0.50108, 0);
-		draw.vertex(0.50108, 1);
-		draw.vertex(0.317495, 1);
-		draw.vertex(0.317495, 0.39315800000000006);
-		draw.bezierVertex(0.367399, 0.368462, 0.40172800000000003, 0.317051, 0.40172800000000003, 0.2576);
-		draw.bezierVertex(0.40172800000000003, 0.19814900000000002, 0.36739800000000006, 0.146739, 0.317495, 0.122043);
-		draw.vertex(0.317495, 0);
-		draw.vertex(0.50108, 0);
-		draw.endShape();
-		
-		draw.fill("#FFFFFF");
-		draw.beginShape();
-		draw.vertex(0.274298, 0.163345);
-		draw.vertex(0.274298, 0);
-		draw.vertex(0.317494, 0);
-		draw.vertex(0.317494, 0.110107);
-		draw.bezierVertex(0.37353600000000003, 0.135589, 0.412526, 0.19202300000000003, 0.412526, 0.2576);
-		draw.bezierVertex(0.412526, 0.32317700000000005, 0.37353600000000003, 0.37961100000000003, 0.317494, 0.40509300000000004);
-		draw.vertex(0.317494, 1);
-		draw.vertex(0.274298, 1);
-		draw.vertex(0.274298, 0.351856);
-		draw.bezierVertex(0.316489, 0.341254, 0.34773200000000004, 0.303081, 0.34773200000000004, 0.257601);
-		draw.bezierVertex(0.34773200000000004, 0.212121, 0.316489, 0.17394700000000002, 0.274298, 0.163345);
-		draw.endShape();
-		
-		draw.fill("#FF0000");
-		draw.beginShape();
-		draw.vertex(0.33693300000000004, 0.2576);
-		draw.bezierVertex(0.33693300000000004, 0.210611, 0.299412, 0.172411, 0.2527, 0.17126100000000002);
-		draw.vertex(0.2527, 0);
-		draw.vertex(0.274298, 0);
-		draw.vertex(0.274298, 0.130222);
-		draw.bezierVertex(0.33451500000000006, 0.141386, 0.38012999999999997, 0.19415, 0.38012999999999997, 0.2576);
-		draw.bezierVertex(0.38012999999999997, 0.32105, 0.334516, 0.373814, 0.274298, 0.384978);
-		draw.vertex(0.274298, 1);
-		draw.vertex(0.2527, 1);
-		draw.vertex(0.2527, 0.34393900000000005);
-		draw.bezierVertex(0.299412, 0.342789, 0.33693300000000004, 0.30459, 0.33693300000000004, 0.2576);
-		draw.endShape();
-		
-		draw.fill("#222222");
-		draw.beginShape();
-		draw.vertex(0.2527, 1);
-		draw.vertex(0.25054, 1);
-		draw.vertex(0.25054, 0.343993);
-		draw.bezierVertex(0.251264, 0.343993, 0.25198, 0.34395600000000004, 0.2527, 0.343938);
-		draw.vertex(0.2527, 1);
-		draw.endShape();
-		
-		draw.fill("#222222");
-		draw.beginShape();
-		draw.vertex(0.25054, 0.171207);
-		draw.vertex(0.25054, 0);
-		draw.vertex(0.2527, 0);
-		draw.vertex(0.2527, 0.171262);
-		draw.bezierVertex(0.25198, 0.171244, 0.251264, 0.171207, 0.25054, 0.171207);
-	}
 	
 	function Left() {
 		draw.fill("#222222");
+		draw.noStroke();
 		draw.beginShape();
 		draw.vertex(0, 0);
-		draw.vertex(0, 1);
-		draw.vertex(0.183585, 1);
-		draw.vertex(0.183585, 0.39315800000000006);
-		draw.bezierVertex(0.133681, 0.368462, 0.099352, 0.317051, 0.099352, 0.2576);
-		draw.bezierVertex(0.099352, 0.19814900000000002, 0.133682, 0.146739, 0.183585, 0.122043);
-		draw.vertex(0.183585, 0);
+		draw.vertex(0, 2);
+		draw.vertex(0.3664, 2);
+		draw.vertex(0.3664, 0.7863);
+		draw.bezierVertex(0.2668, 0.7369, 0.1982, 0.6341, 0.1982, 0.5152);
+		draw.bezierVertex(0.1982, 0.3963, 0.2668, 0.2936, 0.3663, 0.2441);
+		draw.vertex(0.3663, 0);
 		draw.vertex(0, 0);
 		draw.endShape();
 		
 		draw.fill("#FFFFFF");
+		draw.noStroke();
 		draw.beginShape();
-		draw.vertex(0.226782, 0.163345);
-		draw.vertex(0.226782, 0);
-		draw.vertex(0.183586, 0);
-		draw.vertex(0.183586, 0.110107);
-		draw.bezierVertex(0.12754300000000002, 0.13559, 0.08855299999999999, 0.19202300000000003, 0.08855299999999999, 0.2576);
-		draw.bezierVertex(0.08855299999999999, 0.32317700000000005, 0.12754300000000002, 0.37961100000000003, 0.183585, 0.40509300000000004);
-		draw.vertex(0.183585, 1);
-		draw.vertex(0.226781, 1);
-		draw.vertex(0.226781, 0.351856);
-		draw.bezierVertex(0.18459, 0.341254, 0.153347, 0.303081, 0.153347, 0.257601);
-		draw.bezierVertex(0.153347, 0.212121, 0.18459, 0.17394700000000002, 0.226782, 0.163345);
+		draw.vertex(0.4525, 0.3267);
+		draw.vertex(0.4525, 0);
+		draw.vertex(0.3663, 0);
+		draw.vertex(0.3663, 0.2202);
+		draw.bezierVertex(0.2545, 0.2712, 0.1768, 0.3841, 0.1768, 0.5152);
+		draw.bezierVertex(0.1768, 0.6464, 0.2546, 0.7593, 0.3664, 0.8103);
+		draw.vertex(0.3664, 2);
+		draw.vertex(0.4526, 2);
+		draw.vertex(0.4526, 0.7037);
+		draw.bezierVertex(0.3685, 0.6825, 0.3061, 0.6062, 0.3061, 0.5152);
+		draw.bezierVertex(0.3061, 0.4243, 0.3684, 0.3479, 0.4525, 0.3267);
 		draw.endShape();
 		
-		draw.fill("#FF0000");
+		draw.fill("#ED2224");
+		draw.noStroke();
 		draw.beginShape();
-		draw.vertex(0.16414700000000002, 0.2576);
-		draw.bezierVertex(0.16414700000000002, 0.210611, 0.201668, 0.172411, 0.24838000000000002, 0.17126100000000002);
-		draw.vertex(0.24838000000000002, 0);
-		draw.vertex(0.226782, 0);
-		draw.vertex(0.226782, 0.130222);
-		draw.bezierVertex(0.16656400000000002, 0.141386, 0.12095000000000002, 0.19415, 0.12095000000000002, 0.2576);
-		draw.bezierVertex(0.12095000000000002, 0.32105, 0.16656400000000002, 0.373814, 0.226782, 0.384978);
-		draw.vertex(0.226782, 1);
-		draw.vertex(0.24838000000000002, 1);
-		draw.vertex(0.24838000000000002, 0.34393900000000005);
-		draw.bezierVertex(0.201668, 0.342789, 0.16414700000000002, 0.30459, 0.16414700000000002, 0.2576);
-		draw.endShape();
-		
-		draw.fill("#222222");
-		draw.beginShape();
-		draw.vertex(0.24838000000000002, 1);
-		draw.vertex(0.25054000000000004, 1);
-		draw.vertex(0.25054000000000004, 0.343993);
-		draw.bezierVertex(0.249816, 0.343993, 0.24910000000000002, 0.34395600000000004, 0.24838000000000002, 0.343938);
-		draw.vertex(0.24838000000000002, 1);
+		draw.vertex(0.3275, 0.5152);
+		draw.bezierVertex(0.3275, 0.4213, 0.4024, 0.3448, 0.4956, 0.3426);
+		draw.vertex(0.4956, 0);
+		draw.vertex(0.4525, 0);
+		draw.vertex(0.4525, 0.2604);
+		draw.bezierVertex(0.3323, 0.2828, 0.2413, 0.3883, 0.2413, 0.5152);
+		draw.bezierVertex(0.2413, 0.6422, 0.3323, 0.7477, 0.4525, 0.77);
+		draw.vertex(0.4525, 2);
+		draw.vertex(0.4956, 2);
+		draw.vertex(0.4956, 0.6879);
+		draw.bezierVertex(0.4024, 0.6855, 0.3275, 0.6092, 0.3275, 0.5152);
 		draw.endShape();
 		
 		draw.fill("#222222");
+		draw.noStroke();
 		draw.beginShape();
-		draw.vertex(0.25054, 0.171207);
-		draw.vertex(0.25054, 0);
-		draw.vertex(0.24838, 0);
-		draw.vertex(0.24838, 0.171262);
-		draw.bezierVertex(0.24910000000000002, 0.171244, 0.249816, 0.171207, 0.25054, 0.171207);
+		draw.vertex(0.4957, 2);
+		draw.vertex(0.5, 2);
+		draw.vertex(0.5, 0.688);
+		draw.bezierVertex(0.4985, 0.688, 0.4972, 0.6879, 0.4957, 0.6879);
+		draw.vertex(0.4957, 2);
+		draw.endShape();
+		
+		draw.fill("#222222");
+		draw.noStroke();
+		draw.beginShape();
+		draw.vertex(0.5, 0.3424);
+		draw.vertex(0.5, 0);
+		draw.vertex(0.4957, 0);
+		draw.vertex(0.4957, 0.3425);
+		draw.bezierVertex(0.4972, 0.3425, 0.4985, 0.3424, 0.5, 0.3424);
 		draw.endShape();
 	}
+	
+	function Right() {
+		draw.fill("#222222");
+		draw.noStroke();
+		draw.beginShape();
+		draw.vertex(1, 0);
+		draw.vertex(1, 2);
+		draw.vertex(0.6336, 2);
+		draw.vertex(0.6336, 0.7863);
+		draw.bezierVertex(0.7332, 0.7369, 0.8018, 0.6341, 0.8018, 0.5152);
+		draw.bezierVertex(0.8018, 0.3963, 0.7332, 0.2936, 0.6337, 0.2441);
+		draw.vertex(0.6337, 0);
+		draw.vertex(1, 0);
+		draw.endShape();
+		
+		draw.fill("#FFFFFF");
+		draw.noStroke();
+		draw.beginShape();
+		draw.vertex(0.5475, 0.3267);
+		draw.vertex(0.5475, 0);
+		draw.vertex(0.6337, 0);
+		draw.vertex(0.6337, 0.2202);
+		draw.bezierVertex(0.7455, 0.2712, 0.8232, 0.3841, 0.8232, 0.5152);
+		draw.bezierVertex(0.8232, 0.6464, 0.7454, 0.7593, 0.6336, 0.8103);
+		draw.vertex(0.6336, 2);
+		draw.vertex(0.5474, 2);
+		draw.vertex(0.5474, 0.7037);
+		draw.bezierVertex(0.6315, 0.6825, 0.6939, 0.6062, 0.6939, 0.5152);
+		draw.bezierVertex(0.6939, 0.4243, 0.6316, 0.3479, 0.5475, 0.3267);
+		draw.endShape();
+		
+		draw.fill("#ED2224");
+		draw.noStroke();
+		draw.beginShape();
+		draw.vertex(0.6725, 0.5152);
+		draw.bezierVertex(0.6725, 0.4213, 0.5976, 0.3448, 0.5044, 0.3426);
+		draw.vertex(0.5044, 0);
+		draw.vertex(0.5475, 0);
+		draw.vertex(0.5475, 0.2604);
+		draw.bezierVertex(0.6677, 0.2828, 0.7587, 0.3883, 0.7587, 0.5152);
+		draw.bezierVertex(0.7587, 0.6422, 0.6677, 0.7477, 0.5475, 0.77);
+		draw.vertex(0.5475, 2);
+		draw.vertex(0.5044, 2);
+		draw.vertex(0.5044, 0.6879);
+		draw.bezierVertex(0.5976, 0.6855, 0.6725, 0.6092, 0.6725, 0.5152);
+		draw.endShape();
+		
+		draw.fill("#222222");
+		draw.noStroke();
+		draw.beginShape();
+		draw.vertex(0.5043, 2);
+		draw.vertex(0.5, 2);
+		draw.vertex(0.5, 0.688);
+		draw.bezierVertex(0.5015, 0.688, 0.5028, 0.6879, 0.5043, 0.6879);
+		draw.vertex(0.5043, 2);
+		draw.endShape();
+		
+		draw.fill("#222222");
+		draw.noStroke();
+		draw.beginShape();
+		draw.vertex(0.5, 0.3424);
+		draw.vertex(0.5, 0);
+		draw.vertex(0.5043, 0);
+		draw.vertex(0.5043, 0.3425);
+		draw.bezierVertex(0.5028, 0.3425, 0.5015, 0.3424, 0.5, 0.3424);
+		draw.endShape();
+	}
+	
 };
