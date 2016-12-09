@@ -3,8 +3,8 @@ function Component(x, y, width, height, epoch, animation) {
 	this.y = y;
 	this.width = width;
 	this.height = height;
-	this.epoch = epoch;
-	this.animation = animation;
+	this.epoch = epoch || 0;
+	this.animation = animation || "";
 }
 
 Component.prototype.setAnimation = function(animation) {

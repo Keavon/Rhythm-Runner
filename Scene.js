@@ -2,9 +2,9 @@ var Scene = {};
 
 Scene.load = function(audio, bpm) {
 	Scene.audio = audio;
-	Scene.bpm = bpm * 2;
+	Scene.bpm = bpm;
 	Scene.runSpeed = 5;
-	Scene.viewportWidth = 100;
+	Scene.viewportWidth = 30;
 	Scene.components = LevelGenerator.generate(Scene.bpm);
 	Scene.players = [new Player("yellow", "arrows")];
 	audio.muted = true;
@@ -29,9 +29,41 @@ Scene.render = function() {
 	var playerOffsetX =  Main.context.canvas.width / 10;
 	var scale = Main.context.canvas.width / this.viewportWidth;
 	
+	var draw = {
+		startOfShape: false,
+		moveX: 0,
+		moveY: 0,
+		offset: function(x, y) {
+			moveX = x;
+			moveY = y;
+		},
+		fill: function(color) {
+			Main.context.fillStyle = color;
+		},
+		rect: function(x, y, w, h) {
+			Main.context.fillRect((x - scroll + draw.moveX) * scale, (y + draw.moveY) * scale + offsetY, w * scale, h * scale);
+		},
+		beginShape: function() {
+			Main.context.beginPath();
+			startOfShape = true;
+		},
+		vertex: function(x, y) {
+			if (startOfShape) Main.context.moveTo((x - scroll + moveX) * scale, (y + moveY) * scale + offsetY);
+			else Main.context.lineTo((x - scroll + moveX) * scale, (y + moveY) * scale + offsetY);
+			startOfShape = false;
+		},
+		bezierVertex: function(c1x, c1y, c2x, c2y, x, y) {
+			Main.context.bezierCurveTo((c1x - scroll + moveX) * scale, (c1y + moveY) * scale + offsetY, (c2x - scroll + moveX) * scale, (c2y + moveY) * scale + offsetY, (x - scroll + moveX) * scale, (y + moveY) * scale + offsetY);
+			startOfShape = false;
+		},
+		endShape: function() {
+			Main.context.fill();
+		}
+	};
+	
 	Scene.components.forEach(function(component) {
 		if (component.x - scroll + component.width > 0 && component.x < scroll + Scene.viewportWidth) {
-			component.draw(scroll, offsetY, scale);
+			component.draw(draw);
 		}
 	});
 	

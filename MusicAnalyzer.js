@@ -81,7 +81,7 @@ MusicAnalyzer.run = function(arrayBuffer, callback) {
 		while (bpm > 120) {
 			bpm /= 2;
 		}
-		callback(bpm);
+		callback(bpm * 2);
 	};
 };
 
