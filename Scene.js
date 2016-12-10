@@ -4,11 +4,18 @@ Scene.load = function(audio, bpm) {
 	Scene.audio = audio;
 	Scene.bpm = bpm;
 	Scene.runSpeed = 5;
-	Scene.viewportWidth = 30;
-	Scene.components = LevelGenerator.generate(Scene.bpm);
+	Scene.viewportWidth = 15;
+	Scene.gravity = 0.000025;
 	Scene.players = [new Player("yellow", "arrows")];
+	Scene.components = LevelGenerator.generate(Scene.bpm);
+	Scene.loadTime = new Date().getTime();
+	Scene.lastFrame = Scene.loadTime;
 	audio.muted = true;
 	audio.play();
+	
+	//setInterval(Interactions.interact, 10);
+	
+	var time = (new Date().getTime() - Scene.loadTime) / 1000;
 };
 
 Scene.scrolled = function() {
@@ -20,6 +27,7 @@ Scene.beatPercentage = function() {
 };
 
 Scene.render = function() {
+	// Draw pulsing background
 	var color = Math.round(Math.sqrt(Scene.beatPercentage() * 255) * Math.sqrt(255));
 	Main.context.fillStyle = "rgb(100, 0, " + color + ")";
 	Main.context.fillRect(0, 0, Main.context.canvas.width, Main.context.canvas.height);
@@ -28,11 +36,15 @@ Scene.render = function() {
 	Draw.globalOffset(scroll, Main.context.canvas.height * 2 / 3);
 	Draw.scale(Main.context.canvas.width / this.viewportWidth);
 	
+	var deltaTime = new Date().getTime() - Scene.lastFrame;
+	
+	Interactions.interact();
+	
 	Scene.components.forEach(function(component) {
 		if (component.x - scroll + component.width > 0 && component.x < scroll + Scene.viewportWidth) {
 			Draw.offset(component.x, component.y - component.height);
 			component.draw();
-			Draw.debugHitbox(component.width, component.height);
+			//Draw.debugHitbox(component.width, component.height);
 			Draw.offset(0, 0);
 		}
 	});
@@ -41,7 +53,7 @@ Scene.render = function() {
 		player.x = scroll + (index + 1) * 3;
 		Draw.offset(player.x, player.y - player.height);
 		player.draw();
-		Draw.debugHitbox(player.width, player.height);
+		//Draw.debugHitbox(player.width, player.height);
 		Draw.offset(0, 0);
 	});
 	

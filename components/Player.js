@@ -3,10 +3,19 @@ function Player(color, input) {
 	this.color = color;
 	this.input = input;
 	this.jumpPressed = false;
+	this.jumpStillPressed = false;
 	this.slidePressed = false;
+	this.slideStillPressed = false;
 	this.stompPressed = false;
+	this.stompStillPressed = false;
 	this.kickPressed = false;
-	this.velocity = 0;
+	this.kickStillPressed = false;
+	this.initialTime = new Date().getTime();
+	this.initialPosition = this.y;
+	this.initialVelocity = 0;
+	this.justTouchedFloor = false;
+	this.gravity = Scene.gravity;
+	this.startedGliding = false;
 	
 	var self = this;
 	
@@ -107,15 +116,19 @@ function Player(color, input) {
 	document.addEventListener("keyup", function(event) {
 		if (event.key === "ArrowUp") {
 			self.jumpPressed = false;
+			self.jumpStillPressed = false;
 		}
 		if (event.key === "ArrowDown") {
 			self.stompPressed = false;
+			self.stompStillPressed = false;
 		}
 		if (event.key === "ArrowLeft") {
 			self.slidePressed = false;
+			self.slideStillPressed = false;
 		}
 		if (event.key === "ArrowRight") {
 			self.kickPressed = false;
+			self.kickStillPressed = false;
 		}
 	});
 }
@@ -124,10 +137,11 @@ function Player(color, input) {
 Player.prototype = Object.create(Component.prototype);
 Player.prototype.constructor = Player;
 
+Player.prototype.collide = function(component) {
+	console.log("Player crashed into " + Object.getPrototypeOf(component).constructor.name);
+};
+
 Player.prototype.draw = function() {
-	// var time = (new Date().getTime() - this.epoch) / 1000;
-	// var appendages = this.animations[this.animation](time);
-	
 	Leg_Rear();
 	Leg_Front();
 	Arm_Rear();

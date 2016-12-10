@@ -5,6 +5,7 @@ function Component(x, y, width, height, epoch, animation) {
 	this.height = height;
 	this.epoch = epoch || 0;
 	this.animation = animation || "";
+	this.solid = true;
 }
 
 Component.prototype.setAnimation = function(animation) {

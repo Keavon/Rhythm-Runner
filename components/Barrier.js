@@ -1,5 +1,6 @@
 function Barrier(x, y) {
 	Component.call(this, x, y, 1, 2);
+	this.solid = false;
 }
 
 // Extend Component
