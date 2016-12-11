@@ -13,8 +13,6 @@ Scene.load = function(audio, bpm) {
 	audio.muted = true;
 	audio.play();
 	
-	//setInterval(Interactions.interact, 10);
-	
 	var time = (new Date().getTime() - Scene.loadTime) / 1000;
 };
 
@@ -33,9 +31,9 @@ Scene.render = function() {
 	Main.context.fillRect(0, 0, Main.context.canvas.width, Main.context.canvas.height);
 	
 	var scroll = Scene.scrolled();
-	//Draw.globalOffset(scroll, Main.context.canvas.height * 2 / 3);
 	var scale = Main.context.canvas.width / this.viewportWidth;
 	var globalOffsetY = Main.context.canvas.height * (2 / 3) / scale;
+	Draw.push();
 	Draw.scale(scale);
 	
 	var deltaTime = new Date().getTime() - Scene.lastFrame;
@@ -44,24 +42,24 @@ Scene.render = function() {
 	
 	Scene.components.forEach(function(component) {
 		if (component.x - scroll + component.width > 0 && component.x < scroll + Scene.viewportWidth) {
-			Draw.offset(component.x - scroll, component.y - component.height + globalOffsetY);
+			Draw.push();
+			Draw.translate(component.x - scroll, component.y - component.height + globalOffsetY);
 			component.draw();
 			//Draw.debugHitbox(component.width, component.height);
-			Draw.offset(0, 0);
+			Draw.pop();
 		}
 	});
 	
 	Scene.players.forEach(function(player, index) {
 		player.x = scroll + (index + 1) * 3;
-		Draw.offset(player.x - scroll, player.y - player.height + globalOffsetY);
+		Draw.push();
+		Draw.translate(player.x - scroll, player.y - player.height + globalOffsetY);
 		player.draw();
 		//Draw.debugHitbox(player.width, player.height);
-		Draw.offset(0, 0);
+		Draw.pop();
 	});
 	
-	Draw.scale(1);
-	//Draw.globalOffset(0, 0);
-	
+	Draw.pop();
 	Main.context.fillStyle = "#fff";
 	Main.context.font = "12px sans-serif";
 	Main.context.textAlign = "left";

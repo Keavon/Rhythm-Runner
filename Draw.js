@@ -3,45 +3,35 @@ var Draw = {};
 Draw.startOfShape = false;
 Draw.doFill = false;
 Draw.doStroke = false;
-Draw.moveX = 0;
-Draw.moveY = 0;
-Draw.scaleFactor = 5;
 
-Draw.offset = function(x, y) {
-	Draw.moveX = x;
-	Draw.moveY = y;
+Draw.pushPose = function(x, y, r, pivotX, pivotY) {
+	Draw.push();
+	Main.context.translate(pivotX + x, -pivotY + y);
+	Main.context.rotate(r - Math.floor(r / (Math.PI * 2)) * Math.PI * 2);
 };
 
-Draw.addOffset = function(x, y) {
-	Draw.moveX += x;
-	Draw.moveY += y;
+Draw.popPose = function() {
+	Draw.pop();
 };
 
-Draw.pose = function(x, y, r, pivotX, pivotY) {
-	Draw.resetPose();
-	
-	Draw.savedMoveX = Draw.moveX;
-	Draw.savedMoveY = Draw.moveY;
-	
-	Main.context.translate((Draw.moveX + pivotX) * Draw.scaleFactor, (Draw.moveY - pivotY) * Draw.scaleFactor);
-	Draw.offset(-pivotX + x, pivotY + y);
-	
-	r -= Math.floor(r / (Math.PI * 2)) * Math.PI * 2;
+Draw.push = function() {
+	Main.context.save();
+};
+
+Draw.pop = function() {
+	Main.context.restore();
+};
+
+Draw.translate = function(x, y) {
+	Main.context.translate(x, y);
+};
+
+Draw.rotate = function(r) {
 	Main.context.rotate(r);
 };
 
-Draw.resetPose = function() {
-	Main.context.setTransform(1, 0, 0, 1, 0, 0);
-	if (Draw.savedMoveX !== undefined) {
-		Draw.moveX = Draw.savedMoveX;
-		Draw.moveY = Draw.savedMoveY;
-		Draw.savedMoveX = undefined;
-		Draw.savedMoveY = undefined;
-	}
-};
-
-Draw.scale = function(scale) {
-	Draw.scaleFactor = scale;
+Draw.scale = function(s) {
+	Main.context.scale(s, s);
 };
 
 Draw.fill = function(color) {
@@ -65,7 +55,7 @@ Draw.noStroke = function() {
 };
 
 Draw.rect = function(x, y, w, h) {
-	Main.context.fillRect((x + Draw.moveX) * Draw.scaleFactor, (y + Draw.moveY) * Draw.scaleFactor, w * Draw.scaleFactor, h * Draw.scaleFactor);
+	Main.context.fillRect(x, y, w, h);
 };
 
 Draw.beginShape = function() {
@@ -74,13 +64,13 @@ Draw.beginShape = function() {
 };
 
 Draw.vertex = function(x, y) {
-	if (Draw.startOfShape) Main.context.moveTo((x + Draw.moveX) * Draw.scaleFactor, (y + Draw.moveY) * Draw.scaleFactor);
-	else Main.context.lineTo((x + Draw.moveX) * Draw.scaleFactor, (y + Draw.moveY) * Draw.scaleFactor);
+	if (Draw.startOfShape) Main.context.moveTo(x, y);
+	else Main.context.lineTo(x, y);
 	Draw.startOfShape = false;
 };
 
 Draw.bezierVertex = function(c1x, c1y, c2x, c2y, x, y) {
-	Main.context.bezierCurveTo((c1x + Draw.moveX) * Draw.scaleFactor, (c1y + Draw.moveY) * Draw.scaleFactor, (c2x + Draw.moveX) * Draw.scaleFactor, (c2y + Draw.moveY) * Draw.scaleFactor, (x + Draw.moveX) * Draw.scaleFactor, (y + Draw.moveY) * Draw.scaleFactor);
+	Main.context.bezierCurveTo(c1x, c1y, c2x, c2y, x, y);
 	Draw.startOfShape = false;
 };
 
