@@ -63,19 +63,19 @@ Interactions.interact = function() {
 				// Run only once at the start
 				if (!player.startedGliding) {
 					// Set player gravity to 1/3 for the glide
-					player.gravity = Scene.gravity / 3;
-					player.initialVelocity = 0;
-					player.initialTime = new Date().getTime();
+					player.initialVelocity = player.initialVelocity + player.gravity * (new Date().getTime() - player.initialTime);
 					player.initialPosition = player.y;
+					player.gravity = Scene.gravity / 3;
+					player.initialTime = new Date().getTime();
 					player.startedGliding = true;
 				}
 			} else {
 				// Run only once when the player stops gliding
 				if (player.startedGliding) {
 					player.initialVelocity = player.initialVelocity + player.gravity * (new Date().getTime() - player.initialTime);
-					player.initialTime = new Date().getTime();
 					player.initialPosition = player.y;
 					player.gravity = Scene.gravity;
+					player.initialTime = new Date().getTime();
 					//player.startedGliding = false; // Enables gliding again after letting go
 				}
 			}

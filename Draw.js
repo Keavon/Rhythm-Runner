@@ -73,6 +73,6 @@ Draw.endShape = function() {
 };
 
 Draw.debugHitbox = function(width, height) {
-	Draw.fill("rgba(255, 0, 255, 0.5)");
+	Draw.fill("rgba(255, 0, 255, 0.25)");
 	Draw.rect(0, 0, width, height);
 };
