@@ -23,19 +23,19 @@ function Player(color, input) {
 		"run": function(t) {
 			return {
 				body: {
-					x: Math.sin(t * 10),
+					x: 0,
 					y: 0,
-					r: Math.tan(t)
+					r: Math.sin(t) / 10
 				},
 				legRear: {
-					x: Math.sin(t/2) * 20,
-					y: Math.cos(t/2) * 20,
-					r: Math.tan(t/2) * 5
+					x: 0,
+					y: 0,
+					r: Math.sin(t - Math.PI / 3) + 0.5
 				},
 				legFront: {
-					x: Math.cos(t/4) * 20,
-					y: Math.sin(t/4) * 20,
-					r: t
+					x: 0,
+					y: 0,
+					r: Math.cos(t) - 0.5
 				}
 			};
 		},
@@ -143,13 +143,15 @@ Player.prototype.collide = function(component) {
 
 Player.prototype.draw = function() {
 	var anim = this.animations[this.animation](this.epoch / 1000);
-	Draw.pose(442.9611511 / 1024, -1421.5787354 / 1024, anim.legFront.r);
+	Draw.pose(anim.legFront.x, anim.legFront.y, anim.legFront.r, 442.9611511 / 1024, -1421.5787354 / 1024);
 	Leg_Rear();
-	Draw.pose(566.7496338 / 1024, -1457.517334 / 1024, anim.legFront.r);
+	Draw.pose(anim.legRear.x, anim.legRear.y, anim.legRear.r, 566.7496338 / 1024, -1457.517334 / 1024);
 	Leg_Front();
 	Draw.resetPose();
 	Arm_Rear();
+	Draw.pose(anim.body.x, anim.body.y, anim.body.r, 512.1096802 / 1024, -1394.625 / 1024);
 	Body();
+	Draw.resetPose();
 	Arm_Front();
 	Hair();
 	Head();

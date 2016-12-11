@@ -17,14 +17,14 @@ Draw.addOffset = function(x, y) {
 	Draw.moveY += y;
 };
 
-Draw.pose = function(x, y, r) {
+Draw.pose = function(x, y, r, pivotX, pivotY) {
 	Draw.resetPose();
 	
 	Draw.savedMoveX = Draw.moveX;
 	Draw.savedMoveY = Draw.moveY;
 	
-	Main.context.translate((Draw.moveX + x) * Draw.scaleFactor, (Draw.moveY - y) * Draw.scaleFactor);
-	Draw.offset(-x, y);
+	Main.context.translate((Draw.moveX + pivotX) * Draw.scaleFactor, (Draw.moveY - pivotY) * Draw.scaleFactor);
+	Draw.offset(-pivotX + x, pivotY + y);
 	
 	r -= Math.floor(r / (Math.PI * 2)) * Math.PI * 2;
 	Main.context.rotate(r);
