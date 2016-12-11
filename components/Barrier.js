@@ -144,5 +144,4 @@ Barrier.prototype.draw = function() {
 		Draw.bezierVertex(0.5028, 0.3425, 0.5015, 0.3424, 0.5, 0.3424);
 		Draw.endShape();
 	}
-	
 };

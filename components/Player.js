@@ -35,7 +35,7 @@ function Player(color, input) {
 				legFront: {
 					x: Math.cos(t/4) * 20,
 					y: Math.sin(t/4) * 20,
-					r: Math.tan(t/4) * 5
+					r: t
 				}
 			};
 		},
@@ -142,8 +142,12 @@ Player.prototype.collide = function(component) {
 };
 
 Player.prototype.draw = function() {
+	var anim = this.animations[this.animation](this.epoch / 1000);
+	Draw.pose(442.9611511 / 1024, -1421.5787354 / 1024, anim.legFront.r);
 	Leg_Rear();
+	Draw.pose(566.7496338 / 1024, -1457.517334 / 1024, anim.legFront.r);
 	Leg_Front();
+	Draw.resetPose();
 	Arm_Rear();
 	Body();
 	Arm_Front();

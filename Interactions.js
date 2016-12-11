@@ -33,7 +33,7 @@ Interactions.interact = function() {
 			player.y = proposedPlayerPosition;
 		}
 		
-		// Evaluates when player is touching a floor
+		// Evaluates when player first touches the floor
 		if (collisionDistances.distanceToFloor >= 0 && player.justTouchedFloor) {
 			// Set jump or rest trajectory
 			if (player.jumpPressed && !player.jumpStillPressed) {
@@ -54,6 +54,8 @@ Interactions.interact = function() {
 			player.gravity = Scene.gravity;
 			player.startedGliding = false;
 			player.justTouchedFloor = false;
+			
+			player.setAnimation("run");
 		}
 		
 		// Handle gliding beginning at the apogee of the jump

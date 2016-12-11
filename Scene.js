@@ -33,8 +33,10 @@ Scene.render = function() {
 	Main.context.fillRect(0, 0, Main.context.canvas.width, Main.context.canvas.height);
 	
 	var scroll = Scene.scrolled();
-	Draw.globalOffset(scroll, Main.context.canvas.height * 2 / 3);
-	Draw.scale(Main.context.canvas.width / this.viewportWidth);
+	//Draw.globalOffset(scroll, Main.context.canvas.height * 2 / 3);
+	var scale = Main.context.canvas.width / this.viewportWidth;
+	var globalOffsetY = Main.context.canvas.height * (2 / 3) / scale;
+	Draw.scale(scale);
 	
 	var deltaTime = new Date().getTime() - Scene.lastFrame;
 	
@@ -42,7 +44,7 @@ Scene.render = function() {
 	
 	Scene.components.forEach(function(component) {
 		if (component.x - scroll + component.width > 0 && component.x < scroll + Scene.viewportWidth) {
-			Draw.offset(component.x, component.y - component.height);
+			Draw.offset(component.x - scroll, component.y - component.height + globalOffsetY);
 			component.draw();
 			//Draw.debugHitbox(component.width, component.height);
 			Draw.offset(0, 0);
@@ -51,14 +53,14 @@ Scene.render = function() {
 	
 	Scene.players.forEach(function(player, index) {
 		player.x = scroll + (index + 1) * 3;
-		Draw.offset(player.x, player.y - player.height);
+		Draw.offset(player.x - scroll, player.y - player.height + globalOffsetY);
 		player.draw();
 		//Draw.debugHitbox(player.width, player.height);
 		Draw.offset(0, 0);
 	});
 	
 	Draw.scale(1);
-	Draw.globalOffset(0, 0);
+	//Draw.globalOffset(0, 0);
 	
 	Main.context.fillStyle = "#fff";
 	Main.context.font = "12px sans-serif";
