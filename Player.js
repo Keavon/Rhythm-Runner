@@ -143,7 +143,7 @@ function Player(color, input) {
 		}
 	};
 	
-	document.addEventListener("keydown", function(event) {
+	addEventListener("keydown", function(event) {
 		if (event.key === "ArrowUp") {
 			self.jumpPressed = true;
 		}
@@ -158,7 +158,7 @@ function Player(color, input) {
 		}
 	});
 	
-	document.addEventListener("keyup", function(event) {
+	addEventListener("keyup", function(event) {
 		if (event.key === "ArrowUp") {
 			self.jumpPressed = false;
 			self.jumpStillPressed = false;
@@ -184,6 +184,7 @@ Player.prototype.constructor = Player;
 
 Player.prototype.collide = function(component) {
 	console.log("Player crashed into " + Object.getPrototypeOf(component).constructor.name);
+	Scene.audio.currentTime = 0;
 };
 
 Player.prototype.draw = function() {

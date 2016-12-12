@@ -75,6 +75,7 @@ Draw.bezierVertex = function(c1x, c1y, c2x, c2y, x, y) {
 };
 
 Draw.endShape = function() {
+	Main.context.closePath();
 	Main.context.fill();
 };
 

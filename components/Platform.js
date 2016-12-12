@@ -1,5 +1,5 @@
 function Platform(x, y, width) {
-	Component.call(this, x, y + 0.5, width, 0.5, new Date().getTime(), "run");
+	Component.call(this, x, y + 0.25, width, 0.25, new Date().getTime(), "run");
 }
 
 // Extend Component

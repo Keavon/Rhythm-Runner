@@ -10,7 +10,7 @@ Scene.load = function(audio, bpm) {
 	Scene.components = LevelGenerator.generate(Scene.bpm);
 	Scene.loadTime = new Date().getTime();
 	Scene.lastFrame = Scene.loadTime;
-	audio.muted = true;
+	//audio.muted = true;
 	audio.play();
 	
 	var time = (new Date().getTime() - Scene.loadTime) / 1000;

@@ -20,5 +20,5 @@ Main.redraw = function() {
 	requestAnimationFrame(Main.redraw);
 };
 
-window.addEventListener("DOMContentLoaded", Main.initialize);
-window.addEventListener("resize", Main.resize);
+addEventListener("DOMContentLoaded", Main.initialize);
+addEventListener("resize", Main.resize);
