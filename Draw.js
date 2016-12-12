@@ -4,10 +4,10 @@ Draw.startOfShape = false;
 Draw.doFill = false;
 Draw.doStroke = false;
 
-Draw.pushPose = function(x, y, r, pivotX, pivotY) {
+Draw.pushPose = function(x, y, r) {
 	Draw.push();
-	Main.context.translate(pivotX + x, -pivotY + y);
-	Main.context.rotate(r - Math.floor(r / (Math.PI * 2)) * Math.PI * 2);
+	Main.context.translate(x, -y);
+	Main.context.rotate(-r);
 };
 
 Draw.popPose = function() {

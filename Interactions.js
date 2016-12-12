@@ -55,7 +55,7 @@ Interactions.interact = function() {
 			player.startedGliding = false;
 			player.justTouchedFloor = false;
 			
-			player.setAnimation("run");
+			//player.setAnimation("run");
 		}
 		
 		// Handle gliding beginning at the apogee of the jump
