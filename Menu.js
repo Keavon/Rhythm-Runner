@@ -2,36 +2,39 @@ var Menu = {};
 
 Menu.load = function() {
 	var streamUrl;
-	streamUrl = "Take On Me.wav";
-	var audio = new Audio(streamUrl);
-	audio.load();
+	streamUrl = "Midnight City.wav";
+	var loadedAudio = false;
+	var loadedBPM = false;
 	
-	if (streamUrl !== undefined) {
-		audio.addEventListener("durationchange", function() {
-			Scene.load(audio, 100);
-			Main.screen = "stage";
-		});
-	} else {
+	if (streamUrl === undefined) {
 		var youTubeUrl = prompt("Enter YouTube video ID");
 		streamUrl = "http://localhost:8080/?url=" + youTubeUrl;
-		
-		var youTubeRequest = new XMLHttpRequest();
-		youTubeRequest.onreadystatechange = function() {
-			if (youTubeRequest.readyState == 4 && youTubeRequest.status == 200) {
-				var request = new XMLHttpRequest();
-				request.open("GET", streamUrl, true);
-				request.responseType = "arraybuffer";
-				request.onload = function() {
-					MusicAnalyzer.run(request.response, function(bpm) {
-						Scene.load(audio, bpm);
-						Main.screen = "stage";
-					});
-				};
-				request.send();
-			}
+	}
+	
+	analyze(done);
+	
+	var audio = new Audio(streamUrl);
+	audio.load();
+	audio.addEventListener("durationchange", done);
+	
+	function analyze(callback) {
+		var request = new XMLHttpRequest();
+		request.open("GET", streamUrl, true);
+		request.responseType = "arraybuffer";
+		request.onload = function() {
+			MusicAnalyzer.run(request.response, callback);
 		};
-		youTubeRequest.open("GET", "http://localhost:8080/?url=" + youTubeUrl, true);
-		youTubeRequest.send(null);
+		request.send();
+	}
+	
+	function done(bpm) {
+		if (typeof bpm === "number") loadedBPM = true;
+		else loadedAudio = true;
+		
+		if (loadedBPM && loadedAudio) {
+			Scene.load(audio, bpm);
+			Main.screen = "stage";
+		}
 	}
 };
 

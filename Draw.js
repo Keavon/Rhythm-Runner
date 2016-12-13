@@ -54,8 +54,33 @@ Draw.noStroke = function() {
 	Draw.doStroke = false;
 };
 
+Draw.strokeWeight = function(weight) {
+	Main.context.strokeWidth = weight;
+};
+
+Draw.opacity = function(alpha) {
+	Main.context.globalAlpha = alpha;
+};
+
 Draw.rect = function(x, y, w, h) {
 	Main.context.fillRect(x, y, w, h);
+};
+
+Draw.ellipse = function(x, y, w, h) {
+	h = h || 0;
+	w /= 2;
+	h /= 2;
+	h = h || w;
+	
+	Main.context.save();
+	Main.context.beginPath();
+	Main.context.translate(x - w, y - h);
+	Main.context.scale(w, h);
+	Main.context.arc(1, 1, 1, 0, 2 * Math.PI, false);
+	Main.context.restore();
+	Main.context.fill();
+	
+	console.log(x, y, w, h);
 };
 
 Draw.beginShape = function() {

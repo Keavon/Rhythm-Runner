@@ -188,7 +188,7 @@ Player.prototype.collide = function(component) {
 };
 
 Player.prototype.draw = function() {
-	var playerSpeedScale = 1.5;
+	var playerSpeedScale = 2;
 	
 	var anim = this.animations[this.animation];
 	var t = (new Date().getTime() - this.epoch) / 1000 * anim.duration * playerSpeedScale;

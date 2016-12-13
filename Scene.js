@@ -1,16 +1,18 @@
 var Scene = {};
 
 Scene.load = function(audio, bpm) {
-	Scene.audio = audio;
-	Scene.bpm = bpm;
-	Scene.runSpeed = 5;
-	Scene.viewportWidth = 15;
-	Scene.gravity = 0.000025;
-	Scene.players = [new Player("yellow", "arrows")];
-	Scene.components = LevelGenerator.generate(Scene.bpm);
-	Scene.loadTime = new Date().getTime();
-	Scene.lastFrame = Scene.loadTime;
-	//audio.muted = true;
+	this.audio = audio;
+	this.bpm = bpm;
+	this.runSpeed = 5;
+	this.viewportWidth = 15;
+	this.gravity = 0.000025;
+	this.players = [new Player("yellow", "arrows")];
+	this.components = LevelGenerator.generate(Scene.bpm);
+	this.backdrop = new Backdrop();
+	this.loadTime = new Date().getTime();
+	this.lastFrame = Scene.loadTime;
+	
+	audio.muted = true;
 	audio.play();
 	
 	var time = (new Date().getTime() - Scene.loadTime) / 1000;
@@ -25,20 +27,21 @@ Scene.beatPercentage = function() {
 };
 
 Scene.render = function() {
+	this.backdrop.draw(Main.context.canvas.width, Main.context.canvas.height);
+	
 	// Draw pulsing background
-	var color = Math.round(Math.sqrt(Scene.beatPercentage() * 255) * Math.sqrt(255));
-	Main.context.fillStyle = "rgb(100, 0, " + color + ")";
-	Main.context.fillRect(0, 0, Main.context.canvas.width, Main.context.canvas.height);
+	//var color = Math.round(Math.sqrt(Scene.beatPercentage() * 255) * Math.sqrt(255));
+	//Main.context.fillStyle = "rgb(100, 0, " + color + ")";
+	//Main.context.fillRect(0, 0, Main.context.canvas.width, Main.context.canvas.height);
 	
 	var scroll = Scene.scrolled();
 	var scale = Main.context.canvas.width / this.viewportWidth;
 	var globalOffsetY = Main.context.canvas.height * (2 / 3) / scale;
-	Draw.push();
-	Draw.scale(scale);
-	
-	var deltaTime = new Date().getTime() - Scene.lastFrame;
 	
 	Interactions.interact();
+	
+	Draw.push();
+	Draw.scale(scale);
 	
 	Scene.components.forEach(function(component) {
 		if (component.x - scroll + component.width > 0 && component.x < scroll + Scene.viewportWidth) {
