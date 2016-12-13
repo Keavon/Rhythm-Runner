@@ -27,12 +27,14 @@ Scene.beatPercentage = function() {
 };
 
 Scene.render = function() {
-	this.backdrop.draw(Main.context.canvas.width, Main.context.canvas.height);
 	
 	// Draw pulsing background
 	//var color = Math.round(Math.sqrt(Scene.beatPercentage() * 255) * Math.sqrt(255));
 	//Main.context.fillStyle = "rgb(100, 0, " + color + ")";
-	//Main.context.fillRect(0, 0, Main.context.canvas.width, Main.context.canvas.height);
+	Main.context.fillStyle = "#000";
+	Main.context.fillRect(0, 0, Main.context.canvas.width, Main.context.canvas.height);
+	
+	this.backdrop.draw(Main.context.canvas.width, Main.context.canvas.height);
 	
 	var scroll = Scene.scrolled();
 	var scale = Main.context.canvas.width / this.viewportWidth;

@@ -237,7 +237,6 @@ Player.prototype.draw = function() {
 	}
 	Draw.popPose();
 	
-	
 	function Leg_Rear() {
 		Draw.fill("#E8AC97");
 		Draw.noStroke();

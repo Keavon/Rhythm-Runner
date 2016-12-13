@@ -1,11 +1,10 @@
 function Backdrop() {
-	
+	this.stars = new StarEmitter(0, 0, 10275, 2581.8);
 }
 
-Backdrop.prototype = Object.create(Component.prototype);
-Backdrop.prototype.constructor = Backdrop;
-
 Backdrop.prototype.draw = function(width, height) {
+	var self = this;
+	
 	Draw.push();
 	Draw.scale(width / 10275);
 	
@@ -22,9 +21,11 @@ Backdrop.prototype.draw = function(width, height) {
 		Draw.fill("#000000");
 		Draw.rect(0, 0, 10275, 2581.8);
 		
+		self.stars.draw();
+		
 		Draw.fill("#FFF2E9");
 		Draw.noStroke();
-		Draw.ellipse(2288, 1277.9, 2115.6);
+		Draw.ellipse(2288, 2250, 2115.6);
 	}
 	
 	function Buildings() {
@@ -638,6 +639,25 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(4804, 2554.8);
 			Draw.endShape();
 			
+			Draw.fill("#F7896F");
+			Draw.noStroke();
+			Draw.beginShape();
+			Draw.vertex(5292.4, 2581.5);
+			Draw.vertex(5045.7, 2352);
+			Draw.vertex(5164.5, 2352);
+			Draw.vertex(5178.7, 2300.8);
+			Draw.vertex(5049.7, 2250);
+			Draw.vertex(5262.7, 2184);
+			Draw.vertex(5114, 2092.1);
+			Draw.vertex(4902.7, 2092.1);
+			Draw.vertex(4754, 2184);
+			Draw.vertex(4967, 2250);
+			Draw.vertex(4838, 2300.8);
+			Draw.vertex(4852.1, 2352);
+			Draw.vertex(4971, 2352);
+			Draw.vertex(4724.2, 2581.5);
+			Draw.endShape();
+			
 			Draw.fill("#031423");
 			Draw.noStroke();
 			Draw.beginShape();
@@ -761,6 +781,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(5007.3, 1645);
 			Draw.vertex(5009.4, 1645);
 			Draw.endShape();
+			
 		}
 		
 		Tube_Towers();

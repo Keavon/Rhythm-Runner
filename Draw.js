@@ -79,8 +79,6 @@ Draw.ellipse = function(x, y, w, h) {
 	Main.context.arc(1, 1, 1, 0, 2 * Math.PI, false);
 	Main.context.restore();
 	Main.context.fill();
-	
-	console.log(x, y, w, h);
 };
 
 Draw.beginShape = function() {
