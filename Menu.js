@@ -2,12 +2,12 @@ var Menu = {};
 
 Menu.load = function() {
 	var streamUrl;
-	//streamUrl = "Midnight City.wav";
+	//streamUrl = "local song.wav";
 	var readiness = 0;
 	var bpm;
 	
 	if (streamUrl === undefined) {
-		var youTubeUrl = prompt("Enter YouTube video ID");
+		var youTubeUrl = prompt("Enter a song's YouTube video ID (not the full URL) or leave blank for \"Stayin' Alive\"");
 		youTubeUrl = youTubeUrl || "I_izvAbhExY";
 		streamUrl = "https://rhythmrunner.herokuapp.com/?url=" + youTubeUrl;
 	}
@@ -16,6 +16,7 @@ Menu.load = function() {
 	
 	var audio = new Audio(streamUrl);
 	audio.load();
+	audio.pause();
 	audio.addEventListener("durationchange", done);
 	
 	function analyze(callback) {
