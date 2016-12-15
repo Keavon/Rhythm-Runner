@@ -2,13 +2,14 @@ var Menu = {};
 
 Menu.load = function() {
 	var streamUrl;
-	streamUrl = "Midnight City.wav";
-	var loadedAudio = false;
-	var loadedBPM = false;
+	//streamUrl = "Midnight City.wav";
+	var readiness = 0;
+	var bpm;
 	
 	if (streamUrl === undefined) {
 		var youTubeUrl = prompt("Enter YouTube video ID");
-		streamUrl = "http://localhost:8080/?url=" + youTubeUrl;
+		youTubeUrl = youTubeUrl || "I_izvAbhExY";
+		streamUrl = "https://rhythmrunner.herokuapp.com/?url=" + youTubeUrl;
 	}
 	
 	analyze(done);
@@ -27,12 +28,18 @@ Menu.load = function() {
 		request.send();
 	}
 	
-	function done(bpm) {
-		if (typeof bpm === "number") loadedBPM = true;
-		else loadedAudio = true;
+	var moon = new Image();
+	moon.addEventListener("load", done);
+	moon.src = "moon.png";
+	
+	function done(e) {
+		readiness++;
+		if (typeof e === "number") {
+			bpm = e;
+		}
 		
-		if (loadedBPM && loadedAudio) {
-			Scene.load(audio, bpm);
+		if (readiness === 3) {
+			Scene.load(audio, bpm, moon);
 			Main.screen = "stage";
 		}
 	}
@@ -45,5 +52,5 @@ Menu.render = function() {
 	Main.context.font = "48px sans-serif";
 	Main.context.textAlign = "center";
 	Main.context.textBaseline = "middle";
-	Main.context.fillText("Rhythm Runner", Main.context.canvas.width / 2, Main.context.canvas.height / 2);
+	Main.context.fillText("Rhythm Runner\nis loading your song...", Main.context.canvas.width / 2, Main.context.canvas.height / 2);
 };

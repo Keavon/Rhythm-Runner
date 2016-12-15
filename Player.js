@@ -16,6 +16,9 @@ function Player(color, input) {
 	this.justTouchedFloor = false;
 	this.gravity = Scene.gravity;
 	this.startedGliding = false;
+	this.score = 0;
+	this.scoredComponents = [];
+	this.hitComponents = [];
 	
 	var self = this;
 	
@@ -183,8 +186,12 @@ Player.prototype = Object.create(Component.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.collide = function(component) {
-	console.log("Player crashed into " + Object.getPrototypeOf(component).constructor.name);
-	Scene.audio.currentTime = 0;
+	//console.log("Player crashed into " + Object.getPrototypeOf(component).constructor.name);
+	if (this.hitComponents.indexOf(component) === -1) {
+		this.hitComponents.push(component);
+		component.gotHit();
+		this.score -= 5;
+	}
 };
 
 Player.prototype.draw = function() {

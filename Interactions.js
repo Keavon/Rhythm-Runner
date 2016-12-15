@@ -114,6 +114,9 @@ Interactions.detectCollisions = function(player) {
 			if (elementDistanceToCeiling >= 0 && (elementDistanceToCeiling < distanceToCeiling || distanceToCeiling < 0)) {
 				distanceToCeiling = elementDistanceToCeiling;
 			}
+		} else if (player.scoredComponents.indexOf(component) === -1 && player.hitComponents.indexOf(component) === -1 && player.x > component.x + component.width) {
+			player.score++;
+			player.scoredComponents.push(component);
 		}
 	});
 	

@@ -30,8 +30,9 @@ Draw.rotate = function(r) {
 	Main.context.rotate(r);
 };
 
-Draw.scale = function(s) {
-	Main.context.scale(s, s);
+Draw.scale = function(x, y) {
+	y = y || x;
+	Main.context.scale(x, y);
 };
 
 Draw.fill = function(color) {
@@ -60,6 +61,11 @@ Draw.strokeWeight = function(weight) {
 
 Draw.opacity = function(alpha) {
 	Main.context.globalAlpha = alpha;
+};
+
+Draw.image = function(image, x, y, w, h) {
+	if (w && h) Main.context.drawImage(image, x, y, w, h);
+	else Main.context.drawImage(image, x, y);
 };
 
 Draw.rect = function(x, y, w, h) {

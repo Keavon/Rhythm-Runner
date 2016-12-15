@@ -1,12 +1,32 @@
-function Backdrop() {
+function Backdrop(moon) {
+	this.moon = moon;
 	this.stars = new StarEmitter(0, 0, 10275, 2581.8);
+	this.recoloredMoon = document.createElement("canvas");
+	this.recoloredMoon.width = 64;
+	this.recoloredMoon.height = 64;
+	this.loadTime = new Date().getTime();
 }
 
 Backdrop.prototype.draw = function(width, height) {
 	var self = this;
 	
+	var canvasAspectRatio = width / height;
+	var backdropAspectRatio = 10275 / 5100;
+	
 	Draw.push();
-	Draw.scale(width / 10275);
+	if (canvasAspectRatio > backdropAspectRatio) {
+		Draw.scale(width / 10275);
+		Draw.translate(height - 5100);
+	} else {
+		Draw.translate(width - 10275);
+		Draw.scale(height / 5100);
+	}
+	
+	var beat = Scene.getBeatEffectScalar();
+	var hue = 83 + beat * 98;
+	var lightness = 50 + beat * 33;
+	
+	var glowColor = "hsl(" + hue + ", 100%, " + lightness + "%)";
 	
 	Sky();
 	Buildings();
@@ -23,9 +43,30 @@ Backdrop.prototype.draw = function(width, height) {
 		
 		self.stars.draw();
 		
-		Draw.fill("#FFF2E9");
-		Draw.noStroke();
-		Draw.ellipse(2288, 2250, 2115.6);
+		// Draw.fill("#FFF2E9");
+		// Draw.noStroke();
+		// Draw.ellipse(2288, 2250, 2115.6);
+		
+		self.recoloredMoon.getContext("2d").drawImage(self.moon, 0, 0);
+		var imageData = self.recoloredMoon.getContext("2d").getImageData(0, 0, 64, 64);
+		var pixels = imageData.data;
+		
+		// var factor = (new Date().getTime() - self.loadTime) / 10000;
+		var factor = Scene.beatPercentage();
+		for (var i = 0; i < pixels.length; i += 4) {
+			pixels[i] *= (1 - factor) / 2;
+			pixels[i + 2] *= (1 + factor) / 2;
+		}
+		self.recoloredMoon.getContext("2d").putImageData(imageData, 0, 0);
+		
+		var placementX = Scene.songCompletion() * -1500 + 4000;
+		var placementY = Scene.songCompletion() * 3250 - 1025;
+		
+		Draw.push();
+		Main.context.arc(placementX + 525, placementY + 525, 500, 0, 2 * Math.PI);
+		Main.context.clip();
+		Draw.image(self.recoloredMoon, placementX, placementY, 1050, 1050);
+		Draw.pop();
 	}
 	
 	function Buildings() {
@@ -77,7 +118,7 @@ Backdrop.prototype.draw = function(width, height) {
 				Draw.bezierVertex(886.5, 2265.8, 1363.5, 2085.8, 1363.5, 2085.8);
 				Draw.endShape();
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.beginShape();
 				Draw.vertex(1363.5, 2085.8);
@@ -101,7 +142,7 @@ Backdrop.prototype.draw = function(width, height) {
 				Draw.bezierVertex(910.5, 1977.8, 1270.5, 1818.7, 1270.5, 1818.7);
 				Draw.endShape();
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.beginShape();
 				Draw.vertex(1270.5, 1818.7);
@@ -127,7 +168,7 @@ Backdrop.prototype.draw = function(width, height) {
 				Draw.bezierVertex(738, 1856.5, 985.5, 1650.7, 985.5, 1650.7);
 				Draw.endShape();
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.beginShape();
 				Draw.vertex(985.5, 1650.7);
@@ -151,7 +192,7 @@ Backdrop.prototype.draw = function(width, height) {
 				Draw.vertex(-25.6, 2370.8);
 				Draw.endShape();
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.beginShape();
 				Draw.vertex(172.4, 2582.3);
@@ -178,7 +219,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.bezierVertex(1933.8, 2525.2, 2122.6, 2581.8, 2122.6, 2581.8);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.beginShape();
 			Draw.vertex(1651.5, 1480);
@@ -187,7 +228,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(1650.9, 1476.7);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.beginShape();
 			Draw.vertex(1650.9, 1489.5);
@@ -196,7 +237,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(1650.9, 1486.2);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.beginShape();
 			Draw.vertex(1651.3, 1500);
@@ -205,7 +246,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(1650.9, 1496.3);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.beginShape();
 			Draw.vertex(1650.2, 1656.5);
@@ -214,7 +255,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(1650.1, 1650.8);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.beginShape();
 			Draw.vertex(1650.1, 1629.5);
@@ -223,7 +264,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(1650.4, 1623.5);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.beginShape();
 			Draw.vertex(1650.1, 1604.8);
@@ -232,7 +273,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(1650.1, 1599);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.beginShape();
 			Draw.vertex(1650.1, 1582.8);
@@ -241,7 +282,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(1650.1, 1577.9);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.beginShape();
 			Draw.vertex(1650.9, 1562.8);
@@ -250,7 +291,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(1650.9, 1557.3);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.beginShape();
 			Draw.vertex(1651, 1543.5);
@@ -259,7 +300,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(1650.9, 1538.9);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.beginShape();
 			Draw.vertex(1651.1, 1527.5);
@@ -268,7 +309,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(1650.9, 1522.6);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.beginShape();
 			Draw.vertex(1651.2, 1512.5);
@@ -277,55 +318,55 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(1650.9, 1508.4);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.rect(1650.1, 1681.4, 283.5, 5.3);
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.rect(1649.8, 1720.5, 283.8, 5.3);
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.rect(1649.9, 1763.4, 283.8, 5.3);
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.rect(1649.8, 1804.2, 283.8, 5.3);
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.rect(1649.8, 1850.7, 283.8, 5.3);
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.rect(1647.6, 1960.1, 286, 5.3);
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.rect(1649.9, 1901.5, 283.8, 5.3);
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.rect(1647.6, 2022.7, 286.1, 5.3);
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.rect(1645.9, 2259.9, 290, 5.3);
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.rect(1647.1, 2094.2, 286.6, 5.3);
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.rect(1646.5, 2172.5, 286.2, 5.3);
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.rect(1645.1, 2346.5, 291.6, 5.3);
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.rect(1646.2, 2444.2, 290.5, 5.3);
 		}
@@ -371,7 +412,7 @@ Backdrop.prototype.draw = function(width, height) {
 			
 			Layer_Stripes();
 			function Layer_Stripes() {
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.beginShape();
 				Draw.vertex(1992.2, 2349);
@@ -381,7 +422,7 @@ Backdrop.prototype.draw = function(width, height) {
 				Draw.vertex(1992.2, 2349);
 				Draw.endShape();
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.beginShape();
 				Draw.vertex(2145.4, 2434);
@@ -394,99 +435,99 @@ Backdrop.prototype.draw = function(width, height) {
 			
 			Base_Stripes();
 			function Base_Stripes() {
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2937.8, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2987.8, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(3037.9, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(3087.9, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(3138, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(3188, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(3238, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(3288.1, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2536.8, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2586.8, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2636.8, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2686.9, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2736.9, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2787, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2837, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2887, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2136.4, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2186.5, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2236.5, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2286.6, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2336.6, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2386.6, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2436.7, 2528.8, 10, 53.5);
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.rect(2486.7, 2528.8, 10, 53.5);
 			}
@@ -718,7 +759,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(4871.5, 2158);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.beginShape();
 			Draw.vertex(4897.9, 1252.1);
@@ -727,7 +768,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(4897.9, 1234.1);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.beginShape();
 			Draw.vertex(4897.9, 1313.6);
@@ -736,7 +777,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(4897.9, 1331.6);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.beginShape();
 			Draw.vertex(5008.2, 1598.8);
@@ -744,7 +785,7 @@ Backdrop.prototype.draw = function(width, height) {
 			Draw.vertex(5008.5, 1598.8);
 			Draw.endShape();
 			
-			Draw.fill("#A8FDFF");
+			Draw.fill(glowColor);
 			Draw.noStroke();
 			Draw.beginShape();
 			Draw.vertex(5979.9, 2581.6);
@@ -797,7 +838,7 @@ Backdrop.prototype.draw = function(width, height) {
 				Draw.vertex(7386.1, 1484);
 				Draw.endShape();
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.beginShape();
 				Draw.vertex(7702.6, 1308);
@@ -820,7 +861,7 @@ Backdrop.prototype.draw = function(width, height) {
 				Draw.bezierVertex(7678.2, 1322.1, 7664.4, 1338.4, 7648.1, 1352.3);
 				Draw.endShape();
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.beginShape();
 				Draw.vertex(7463.8, 1598.3);
@@ -846,7 +887,7 @@ Backdrop.prototype.draw = function(width, height) {
 				Draw.vertex(6946.5, 2033.3);
 				Draw.endShape();
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.beginShape();
 				Draw.vertex(6946.5, 2033.3);
@@ -865,7 +906,7 @@ Backdrop.prototype.draw = function(width, height) {
 				Draw.vertex(6946.5, 2033.3);
 				Draw.endShape();
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.beginShape();
 				Draw.vertex(7279.9, 1848);
@@ -902,7 +943,7 @@ Backdrop.prototype.draw = function(width, height) {
 				Draw.vertex(6786.1, 2582.2);
 				Draw.endShape();
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.beginShape();
 				Draw.vertex(7062.5, 2104.9);
@@ -927,7 +968,7 @@ Backdrop.prototype.draw = function(width, height) {
 				Draw.bezierVertex(7041, 2117.7, 7029.4, 2134.9, 7014.4, 2149.3);
 				Draw.endShape();
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.beginShape();
 				Draw.vertex(6792.9, 2302.7);
@@ -953,7 +994,7 @@ Backdrop.prototype.draw = function(width, height) {
 				Draw.vertex(7117.2, 2477.1);
 				Draw.endShape();
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.beginShape();
 				Draw.vertex(7406.2, 2319.3);
@@ -965,7 +1006,7 @@ Backdrop.prototype.draw = function(width, height) {
 				Draw.bezierVertex(7361.8, 2391.1, 7417.2, 2338.4, 7406.2, 2319.3);
 				Draw.endShape();
 				
-				Draw.fill("#A8FDFF");
+				Draw.fill(glowColor);
 				Draw.noStroke();
 				Draw.beginShape();
 				Draw.vertex(7146.1, 2532.1);
@@ -994,7 +1035,7 @@ Backdrop.prototype.draw = function(width, height) {
 	}
 	
 	function Sea() {
-		Draw.fill("#21343A");
+		Draw.fill("hsl(194, 43%, " + ((Scene.beatPercentage() * 25) + 10) + "%)");
 		Draw.noStroke();
 		Draw.rect(0, 2581.8, 10275, 2518.2);
 	}

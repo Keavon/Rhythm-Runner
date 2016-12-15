@@ -2,6 +2,7 @@ function Hexagon(x, y) {
 	Component.call(this, x, y, 1, 1);
 	this.solid = false;
 	this.color = Math.random() * 360;
+	this.startRotation = Math.random();
 }
 
 // Extend Component
@@ -20,36 +21,18 @@ Hexagon.prototype.draw = function() {
 	var self = this;
 	
 	for (var i = 0; i < 6; i++) {
-		var t = new Date().getTime() / 1000 * spinSpeed;
+		var t = (new Date().getTime() / 1000 + this.startRotation) * spinSpeed;
 		var x1 = Math.sin(i * Math.PI / 3 + t) * w / 2;
 		var x2 = Math.sin((i + 1) * Math.PI / 3 + t) * w / 2;
 		var z = -Math.cos((2 * i * Math.PI + Math.PI + 6 * t) / 6);
 		var topOffset1 = 0;
 		var topOffset2 = 0;
-		if (i === 0) {
-			topOffset1 = 0;
-			topOffset2 = angledTopOffset;
-		}
-		if (i === 1) {
-			topOffset1 = -angledTopOffset;
-			topOffset2 = 0;
-		}
-		if (i === 2) {
-			topOffset1 = -angledTopOffset;
-			topOffset2 = -angledTopOffset;
-		}
-		if (i === 3) {
-			topOffset1 = 0;
-			topOffset2 = -angledTopOffset;
-		}
-		if (i === 4) {
-			topOffset1 = angledTopOffset;
-			topOffset2 = 0;
-		}
-		if (i === 5) {
-			topOffset1 = angledTopOffset;
-			topOffset2 = angledTopOffset;
-		}
+		if (i === 0) { topOffset1 = 0; topOffset2 = angledTopOffset; }
+		if (i === 1) { topOffset1 = -angledTopOffset; topOffset2 = 0; }
+		if (i === 2) { topOffset1 = -angledTopOffset; topOffset2 = -angledTopOffset; }
+		if (i === 3) { topOffset1 = 0; topOffset2 = -angledTopOffset; }
+		if (i === 4) { topOffset1 = angledTopOffset; topOffset2 = 0; }
+		if (i === 5) { topOffset1 = angledTopOffset; topOffset2 = angledTopOffset; }
 		
 		toDraw.push({
 			p1: {x: x1, y: topOffset2 - h},
@@ -78,7 +61,8 @@ Hexagon.prototype.draw = function() {
 	
 	toDraw.forEach(function(poly) {
 		var shade = Math.round((1 - (poly.z + 1) / 2) * 50);
-		Draw.fill("hsl(" + self.color + ", 100%, " + shade + "%)");
+		var saturation = self.hit ? 0 : 100;
+		Draw.fill("hsl(" + self.color + ", " + saturation + "%, " + shade + "%)");
 		
 		if (poly.points) {
 			Draw.beginShape();
