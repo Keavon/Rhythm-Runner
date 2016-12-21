@@ -1,14 +1,15 @@
 var Menu = {};
 
 Menu.load = function() {
+	var defaults = ["I_izvAbhExY", "G-C21K3GCjE", "NRFkEuBpHlI", "7CKjyzalfLc"];
 	var streamUrl;
 	//streamUrl = "local song.wav";
 	var readiness = 0;
 	var bpm;
 	
 	if (streamUrl === undefined) {
-		var youTubeUrl = prompt("Enter a song's YouTube video ID (not the full URL) or leave blank for \"Stayin' Alive\"");
-		youTubeUrl = youTubeUrl || "I_izvAbhExY";
+		var youTubeUrl = prompt("Enter a song's YouTube video ID (not the full URL) or leave blank for something random");
+		youTubeUrl = youTubeUrl || defaults[Math.floor(Math.random() * defaults.length)];
 		streamUrl = "https://rhythmrunner.herokuapp.com/?url=" + youTubeUrl;
 	}
 	
