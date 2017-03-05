@@ -1,0 +1,12 @@
+{
+  "name": "rhythm-runner-youtube",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "express": "^4.14.0",
+    "ytdl-core": "^0.7.20"
+  },
+  "devDependencies": {},
+  "author": "Keavon Chambers"
+}
