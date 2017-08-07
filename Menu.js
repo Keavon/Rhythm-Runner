@@ -1,7 +1,7 @@
 var Menu = {};
 
 Menu.load = function() {
-	var defaults = ["I_izvAbhExY", "G-C21K3GCjE", "NRFkEuBpHlI", "7CKjyzalfLc"];
+	var defaults = ["I_izvAbhExY", "G-C21K3GCjE", "tYEkQDWSeEg", "7CKjyzalfLc"];
 	var streamUrl;
 	//streamUrl = "local song.wav";
 	var readiness = 0;
