@@ -7,9 +7,9 @@ app.listen(process.env.PORT || 8080);
 app.get("/", function(request, response) {
 	console.log("Requesting " + request.query.url);
 	response.set("Access-Control-Allow-Origin", "https://keavon.com");
-	response.set("Content-Disposition", "attachment; filename=stream");
+	// response.set("Content-Disposition", "attachment; filename=stream");
 	
-	if (request.query && request.query.url !== undefined && request.query.url.length > 0) {
+	if (request.query && request.query.url && request.query.url.length > 0) {
 		response.set("Content-Type", "audio/ogg");
 
 		try {
